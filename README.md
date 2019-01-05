@@ -6,7 +6,7 @@ let rows = fixture.CreateMany<Person>()
 
 StringTableBuilder.New<Person>()
                         .ImplicitHeader()
-                        .Alignment(Alignment.Right)
+                        .Alignment(Alignment.Left)
                         .Border(Border.Full)
                         .AppendAll(rows)
                         .Finanlize()
