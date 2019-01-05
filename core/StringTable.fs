@@ -42,8 +42,8 @@ module StringTableModule =
 
         member this.FormatCell(value : string, width : int) =
             match alignment with
-                | Alignment.Right -> this.PadLeft(value, width - value.Length)
-                | Alignment.Left -> this.PadRight(value, width - value.Length)
+                | Alignment.Left -> this.PadLeft(value, width - value.Length)
+                | Alignment.Right -> this.PadRight(value, width - value.Length)
 
         member this.Line(width : int) =
             String.Join(this.EmptyChar(), Enumerable.Range(0, width + 1).Select(fun _ -> this.Blank())) + this.NewLine()
