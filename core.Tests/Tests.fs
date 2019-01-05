@@ -1,21 +1,30 @@
 namespace core.Tests
 
-open System.Collections.Generic
+open AutoFixture
 open Xunit
-open string.table.StringTable
 open string.table.StringTableBuilder
 
-(*let stringTable = new StringTable()
+type Person() =
+    member val Name = "" with get, set
+    member val Age = 0 with get, set
 
-[<Fact>]
-let ``My test``() =
-    let utility = StringTableBuilder
-                          .New()
-                          .ExplicitHeader(new Dictionary<string, string>())
-                          .Alignment(Alignment.Left)
-                          .Append(new List<string>())
-                          .Finanlize()
-                          .Build()
+module StringBuilderTestModule =
+    open string.table.StringTableModule
 
-
-    Assert.True(true)*)
+    let fixture = new Fixture();
+    
+    [<Fact>]
+    let ``My test``() =
+        let rows = fixture.CreateMany<Person>()
+        
+        let utility = StringTableBuilder.New<Person>()
+                        .ImplicitHeader()
+                        .Alignment(Alignment.Right)
+                        .Border(Border.Full)
+                        .AppendAll(rows)
+                        .Finanlize()
+                        .Build();
+    
+        let result = utility.Result
+    
+        Assert.NotEmpty(result)

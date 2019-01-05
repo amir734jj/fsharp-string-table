@@ -5,30 +5,34 @@ module StringTableBuilder =
     open System.ComponentModel.DataAnnotations
     open System.Reflection
     open System.Collections.Generic
-    open StringTable
+    open StringTableModule
     open System.Linq
 
-    type StringTableBuilderBuild<'T>(header : Dictionary<PropertyInfo, string>, alignment : Alignment, rows : IEnumerable<'T>) =
+    type StringTableBuilderBuild<'T>(header : Dictionary<PropertyInfo, string>, alignment : Alignment, border: Border, rows : IEnumerable<'T>) =
         member this.Build() =
-            new StringTable<'T>(header, alignment, rows)
+            (new StringTable<'T>(header, alignment, border, rows)).Init() :> IStringTable
 
-    type StringTableBuilderRows<'T>(header : Dictionary<PropertyInfo, string>, alignment : Alignment) =
-        let rows = ImmutableList<'T>.Empty
+    type StringTableBuilderRows<'T>(header : Dictionary<PropertyInfo, string>, alignment : Alignment, border: Border) =
+        let mutable rows = ImmutableList<'T>.Empty
 
         member this.Append(arg : 'T) =
-            rows = rows.Add(arg) |> ignore
+            rows <- rows.Add(arg)
             this
 
         member this.AppendAll(arg : IEnumerable<'T>) =
-            rows = rows.Concat(arg).ToImmutableList() |> ignore
+            rows <- rows.Concat(arg).ToImmutableList()
             this
 
         member this.Finanlize<'T>() =
-            new StringTableBuilderBuild<'T>(header, alignment, rows)
+            new StringTableBuilderBuild<'T>(header, alignment, border, rows)
 
+    type StringTableBuilderBorder<'T>(header : Dictionary<PropertyInfo, string>, alignment : Alignment) =
+        member this.Border(border : Border) =
+            new StringTableBuilderRows<'T>(header, alignment, border)    
+    
     type StringTableBuilderAlignment<'T>(header : Dictionary<PropertyInfo, string>) =
         member this.Alignment(alignment : Alignment) =
-            new StringTableBuilderRows<'T>(header, alignment)
+            new StringTableBuilderBorder<'T>(header, alignment)
 
     type StringTableBuilderHeader<'T>() =
         member this.ImplicitHeader() =
