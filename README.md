@@ -9,7 +9,7 @@ StringTableBuilder.New<Person>()
                         .Alignment(Alignment.Left)
                         .Border(Border.Full)
                         .AppendAll(rows)
-                        .Finanlize()
+                        .Finalize()
                         .Build();
     
 let result = utility.Result
@@ -27,7 +27,7 @@ let result = utility.Result
  
  ### Options:
  - Border: `Full | Minimal`
- - Alignment: `Right | Left`
+ - Alignment: `Right | Left | Center`
  
  ## Notes:
  - If `DisplayAttribute` is provided on property, it will be used instead as header in case of `ImplicitHeader`

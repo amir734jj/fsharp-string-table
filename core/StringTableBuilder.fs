@@ -23,7 +23,7 @@ module StringTableBuilder =
             rows <- rows.Concat(arg).ToImmutableList()
             this
 
-        member this.Finanlize<'T>() =
+        member this.Finalize<'T>() =
             new StringTableBuilderBuild<'T>(header, alignment, border, rows)
 
     type StringTableBuilderBorder<'T>(header : Dictionary<PropertyInfo, string>, alignment : Alignment) =

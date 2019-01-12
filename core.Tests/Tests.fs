@@ -22,7 +22,7 @@ module StringBuilderTestModule =
                         .Alignment(Alignment.Center)
                         .Border(Border.Full)
                         .AppendAll(rows)
-                        .Finanlize()
+                        .Finalize()
                         .Build();
     
         let result = utility.Result
