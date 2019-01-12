@@ -19,7 +19,7 @@ module StringBuilderTestModule =
         
         let utility = StringTableBuilder.New<Person>()
                         .ImplicitHeader()
-                        .Alignment(Alignment.Left)
+                        .Alignment(Alignment.Center)
                         .Border(Border.Full)
                         .AppendAll(rows)
                         .Finanlize()

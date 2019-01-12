@@ -6,7 +6,7 @@ module StringTableModule =
     open System.Linq
     open System.Collections.Generic
 
-    type Alignment = | Left | Right
+    type Alignment = | Left | Right | Center
     type Border = | Full | Minimal
 
     type IStringTable =
@@ -39,11 +39,18 @@ module StringTableModule =
 
         member this.PadLeft(value : string, padding : int) =
             value + this.Repeat(this.Space(), padding)
-
+            
+        member this.PadCenter(value : string, padding : int) =
+            // Left align
+            let leftPadding = int(Math.Floor(float(padding) / 2.0))
+            let rightPadding = padding - leftPadding
+            this.Repeat(this.Space(), leftPadding) + value + this.Repeat(this.Space(), rightPadding)
+        
         member this.FormatCell(value : string, width : int) =
             match alignment with
                 | Alignment.Left -> this.PadLeft(value, width - value.Length)
                 | Alignment.Right -> this.PadRight(value, width - value.Length)
+                | Alignment.Center -> this.PadCenter(value, width - value.Length)
 
         member this.Line(width : int) =
             String.Join(this.EmptyChar(), Enumerable.Range(0, width + 1).Select(fun _ -> this.Blank())) + this.NewLine()
