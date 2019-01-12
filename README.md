@@ -4,7 +4,7 @@ Simple string table structure in F#
 ```fsharp
 let rows = fixture.CreateMany<Person>()
 
-StringTableBuilder.New<Person>()
+let utility = StringTableBuilder.New<Person>()
                         .ImplicitHeader()
                         .Alignment(Alignment.Left)
                         .Border(Border.Full)
